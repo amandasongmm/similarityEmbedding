@@ -1,4 +1,4 @@
-function X = tste(triplets, no_dims, lambda, alpha, use_log)
+function X = tste(triplets, no_dims, lambda, alpha, use_log, use_pause)
 %TSTE t-Distributed Stochastic Triplet Embedding
 %
 %   X = tste(triplets, no_dims, lambda, alpha, use_log)
@@ -41,7 +41,7 @@ function X = tste(triplets, no_dims, lambda, alpha, use_log)
     X = randn(N, no_dims) .* .0001;
     C = Inf;
     tol = 1e-7;             % convergence tolerance    
-    max_iter = 1000;        % maximum number of iterations
+    max_iter = 500;        % maximum number of iterations
     eta = 2;                % learning rate
     best_C = Inf;           % best error obtained so far
     best_X = X;             % best embedding found so far
@@ -49,10 +49,13 @@ function X = tste(triplets, no_dims, lambda, alpha, use_log)
     % Perform main learning iterations
     iter = 0; no_incr = 0;
     while iter < max_iter && no_incr < 5
-                
         % Compute value of slack variables, cost function, and gradient
         old_C = C;
-        checkgrad('tste_grad', X(:), 1e-7, N, no_dims, triplets, lambda, alpha, use_log), pause
+        % if use_pause
+        %     checkgrad('tste_grad', X(:), 1e-7, N, no_dims, triplets, lambda, alpha, use_log), pause;
+        % else
+        %     checkgrad('tste_grad', X(:), 1e-7, N, no_dims, triplets, lambda, alpha, use_log);
+        % end
         [C, G] = tste_grad(X(:), N, no_dims, triplets, lambda, alpha, use_log);
         
         % Maintain best solution found so far

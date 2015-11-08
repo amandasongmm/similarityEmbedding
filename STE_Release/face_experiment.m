@@ -24,7 +24,7 @@ perm = randperm(no_triplets);
 for fold=1:no_folds
     %% Split training and test data
     sampleSize = size(faceTriplet, 1);
-    trainRatio = 0.9;
+    trainRatio = 0.8;
     trainNum = sampleSize * trainRatio;
     trainInd = randperm(sampleSize, trainNum);
     testInd = 1:sampleSize; testInd(trainInd)=[];
